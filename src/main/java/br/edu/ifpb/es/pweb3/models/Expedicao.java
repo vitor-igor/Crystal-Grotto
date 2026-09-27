@@ -97,8 +97,16 @@ public class Expedicao {
         mappedBy = "expedicao",
         cascade = CascadeType.ALL,
         orphanRemoval = true,
-        fetch = FetchType.LAZY
+        fetch = FetchType.LAZY,
+        optional = false
     )
     private PlanoSeguranca planoSeguranca;
+
+    @OneToMany(
+        mappedBy = "expedicao", 
+        fetch = FetchType.LAZY,
+        orphanRemoval = true
+    )
+    private List<ParticipacaoExpedicao> participacoes;
 
 }
