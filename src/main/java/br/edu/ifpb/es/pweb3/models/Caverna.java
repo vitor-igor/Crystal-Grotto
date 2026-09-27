@@ -2,7 +2,7 @@ package br.edu.ifpb.es.pweb3.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -62,8 +62,11 @@ public class Caverna {
         mappedBy = "caverna",
         fetch = FetchType.LAZY
     )
-    private List<SetorPesquisa> setoresPesquisa;
+    private Set<SetorPesquisa> setoresPesquisa;
     
-    @OneToMany(mappedBy = "caverna")
-    private List<Expedicao> expedicoes;
+    @OneToMany(
+        mappedBy = "caverna",
+        fetch = FetchType.LAZY
+    )
+    private Set<Expedicao> expedicoes;
 }

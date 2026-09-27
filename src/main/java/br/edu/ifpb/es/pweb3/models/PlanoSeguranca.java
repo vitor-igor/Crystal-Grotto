@@ -38,6 +38,7 @@ public class PlanoSeguranca {
         name = "tb_plano_seguranca_procedimentos_evacuacao",
         joinColumns = @JoinColumn(name = "id_plano_seguranca")
     )
+    @Column(name = "procedimento_evacuacao")
     private List<String> procedimentosEvacuacao;
 
     @Column(name = "ponto_externo_encontro", nullable = false, length = 200)

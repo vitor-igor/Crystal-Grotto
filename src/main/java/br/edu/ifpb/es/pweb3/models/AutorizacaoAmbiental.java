@@ -58,6 +58,7 @@ public class AutorizacaoAmbiental {
         name = "tb_autorizacao_ambiental_observacoes",
         joinColumns = @JoinColumn(name = "id_autorizacao_ambiental")
     )
+    @Column(name = "observacao")
     private List<String> observacoes;
 
     @Basic(fetch = FetchType.LAZY)

@@ -70,6 +70,7 @@ public class ParticipacaoExpedicao {
             name = "tb_participacao_expedicao_observacoes",
             joinColumns = @JoinColumn(name = "id_participacao_expedicao")
     )
+    @Column(name = "observacao")
     private List<String> observacoes;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
