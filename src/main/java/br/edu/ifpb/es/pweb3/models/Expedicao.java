@@ -2,6 +2,7 @@ package br.edu.ifpb.es.pweb3.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoExpedicao;
@@ -90,7 +91,7 @@ public class Expedicao {
         mappedBy = "expedicao",
         fetch = FetchType.LAZY
     )
-    private AutorizacaoAmbiental autorizacaoAmbiental;
+    private List<AutorizacaoAmbiental> autorizacoesAmbientais;
 
     @OneToOne(
         mappedBy = "expedicao",
