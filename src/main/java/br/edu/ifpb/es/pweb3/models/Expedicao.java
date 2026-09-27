@@ -24,6 +24,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity 
@@ -84,13 +85,13 @@ public class Expedicao {
         joinColumns = @JoinColumn(name = "id_expedicao"),
         inverseJoinColumns = @JoinColumn(name = "id_setor_pesquisa")
     )
-    private Set<SetorPesquisa> setoresPesquisa;
+    private Set<SetorPesquisa> setoresPesquisa = new HashSet<>();
 
     @OneToMany(
         mappedBy = "expedicao",
         fetch = FetchType.LAZY
     )
-    private Set<AutorizacaoAmbiental> autorizacoesAmbientais;
+    private Set<AutorizacaoAmbiental> autorizacoesAmbientais = new HashSet<>();
 
     @OneToOne(
         mappedBy = "expedicao",
@@ -106,12 +107,13 @@ public class Expedicao {
         fetch = FetchType.LAZY, 
         orphanRemoval = true
     )
-    private Set<ParticipacaoExpedicao> participacoes;
+    private Set<ParticipacaoExpedicao> participacoes = new HashSet<>();
 
     @OneToMany(
         mappedBy = "expedicao", 
         fetch = FetchType.LAZY,
         orphanRemoval = true
     )
-    private Set<UtilizacaoEquipamento> utilizacoesEquipamentos;
+    private Set<UtilizacaoEquipamento> utilizacoesEquipamentos = new HashSet<>();
+    
 }

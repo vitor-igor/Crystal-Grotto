@@ -1,6 +1,7 @@
 package br.edu.ifpb.es.pweb3.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoAutorizacaoAmbiental;
@@ -59,7 +60,7 @@ public class AutorizacaoAmbiental {
         joinColumns = @JoinColumn(name = "id_autorizacao_ambiental")
     )
     @Column(name = "observacao")
-    private List<String> observacoes;
+    private List<String> observacoes = new ArrayList<>();
 
     @Basic(fetch = FetchType.LAZY)
     @Lob 

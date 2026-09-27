@@ -2,6 +2,7 @@ package br.edu.ifpb.es.pweb3.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -62,11 +63,12 @@ public class Caverna {
         mappedBy = "caverna",
         fetch = FetchType.LAZY
     )
-    private Set<SetorPesquisa> setoresPesquisa;
+    private Set<SetorPesquisa> setoresPesquisa = new HashSet<>();
     
     @OneToMany(
         mappedBy = "caverna",
         fetch = FetchType.LAZY
     )
-    private Set<Expedicao> expedicoes;
+    private Set<Expedicao> expedicoes = new HashSet<>();
+    
 }

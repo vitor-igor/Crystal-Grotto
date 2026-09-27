@@ -24,4 +24,5 @@ public class CoordenadaGeografica {
 
     @Column(name = "datum_geodesico", nullable = false, length = 20)
     private String datumGeodesico;
+    
 }

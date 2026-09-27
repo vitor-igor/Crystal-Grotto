@@ -22,6 +22,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -71,7 +72,7 @@ public class ParticipacaoExpedicao {
             joinColumns = @JoinColumn(name = "id_participacao_expedicao")
     )
     @Column(name = "observacao")
-    private List<String> observacoes;
+    private List<String> observacoes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_pessoa", nullable = false)

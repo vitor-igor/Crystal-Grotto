@@ -34,4 +34,5 @@ public class Endereco {
 
     @Column(name = "cep", length = 8, nullable = false)
     private String cep;
+    
 }

@@ -56,4 +56,5 @@ public class SetorPesquisa {
     @ManyToOne 
     @JoinColumn(name = "caverna_id", nullable = false)
     private Caverna caverna;
+    
 }

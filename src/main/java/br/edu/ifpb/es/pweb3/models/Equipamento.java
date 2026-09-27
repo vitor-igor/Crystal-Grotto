@@ -19,6 +19,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity 
@@ -68,5 +69,6 @@ public class Equipamento {
         fetch = FetchType.LAZY,
         orphanRemoval = true
     )
-    private Set<UtilizacaoEquipamento> historicoUtilizacoes;
+    private Set<UtilizacaoEquipamento> historicoUtilizacoes = new HashSet<>();
+    
 }

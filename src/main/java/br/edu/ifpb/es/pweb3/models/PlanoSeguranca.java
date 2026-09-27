@@ -1,5 +1,6 @@
 package br.edu.ifpb.es.pweb3.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Basic;
@@ -39,7 +40,7 @@ public class PlanoSeguranca {
         joinColumns = @JoinColumn(name = "id_plano_seguranca")
     )
     @Column(name = "procedimento_evacuacao")
-    private List<String> procedimentosEvacuacao;
+    private List<String> procedimentosEvacuacao = new ArrayList<>();
 
     @Column(name = "ponto_externo_encontro", nullable = false, length = 200)
     private String pontoExternoEncontro;

@@ -33,4 +33,5 @@ public class GuiaEspeleologia extends Pessoa {
 
     @Column(name = "qtd_expedicoes_concluidas")
     private Integer qtdExpedicoesConcluidas;
+    
 }

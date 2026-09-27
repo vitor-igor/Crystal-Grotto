@@ -33,4 +33,5 @@ public class Pesquisador extends Pessoa {
 
     @Column(name = "valor_diario_bolsa", precision = 10, scale = 2)
     private BigDecimal valorDiarioBolsa;
+    
 }

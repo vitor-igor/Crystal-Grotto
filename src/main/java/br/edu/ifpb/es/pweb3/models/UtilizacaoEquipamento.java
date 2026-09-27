@@ -64,4 +64,5 @@ public class UtilizacaoEquipamento {
 
     @Column(name = "custo_avaria", precision = 10, scale = 2)
     private BigDecimal custoAvaria;
+    
 }
