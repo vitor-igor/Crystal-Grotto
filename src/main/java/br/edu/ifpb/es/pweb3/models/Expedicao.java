@@ -1,10 +1,5 @@
 package br.edu.ifpb.es.pweb3.models;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoExpedicao;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -26,6 +21,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity 
 @Table(name = "tb_expedicao")
@@ -79,7 +78,7 @@ public class Expedicao {
     @JoinColumn(name = "caverna_id", nullable = false)
     private Caverna caverna;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "tb_expedicao_setor",
         joinColumns = @JoinColumn(name = "id_expedicao"),
@@ -91,7 +90,7 @@ public class Expedicao {
         mappedBy = "expedicao",
         fetch = FetchType.LAZY
     )
-    private List<AutorizacaoAmbiental> autorizacoesAmbientais;
+    private Set<AutorizacaoAmbiental> autorizacoesAmbientais;
 
     @OneToOne(
         mappedBy = "expedicao",
@@ -104,9 +103,15 @@ public class Expedicao {
 
     @OneToMany(
         mappedBy = "expedicao", 
+        fetch = FetchType.LAZY, 
+        orphanRemoval = true
+    )
+    private Set<ParticipacaoExpedicao> participacoes;
+
+    @OneToMany(
+        mappedBy = "expedicao", 
         fetch = FetchType.LAZY,
         orphanRemoval = true
     )
-    private List<ParticipacaoExpedicao> participacoes;
-
+    private Set<UtilizacaoEquipamento> utilizacoesEquipamentos;
 }

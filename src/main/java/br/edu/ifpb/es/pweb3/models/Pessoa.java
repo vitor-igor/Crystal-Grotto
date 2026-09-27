@@ -1,7 +1,7 @@
 package br.edu.ifpb.es.pweb3.models;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoAtiva;
 import jakarta.persistence.Column;
@@ -63,6 +63,8 @@ public abstract class Pessoa {
         fetch = FetchType.LAZY, 
         orphanRemoval = true
     )
-    private List<ParticipacaoExpedicao> participacoesExpedicoes;
+    private Set<ParticipacaoExpedicao> participacoesExpedicoes;
 
+    @OneToMany(mappedBy = "pessoaRetirada", fetch = FetchType.LAZY)
+    private Set<UtilizacaoEquipamento> utilizacoesEquipamentos;
 }
