@@ -57,9 +57,9 @@ public class ParticipacaoExpedicao {
     private BigDecimal valorDiaria;
 
     @Column(
-            name = "qtd_dias_previstos",
-            columnDefinition = "INTEGER CHECK (qtd_dias_previstos > 0)",
-            nullable = false
+        name = "qtd_dias_previstos",
+        columnDefinition = "INTEGER CHECK (qtd_dias_previstos > 0)",
+        nullable = false
     )
     private Integer qtdDiasPrevistos;
 
@@ -68,17 +68,23 @@ public class ParticipacaoExpedicao {
 
     @ElementCollection
     @CollectionTable(
-            name = "tb_participacao_expedicao_observacoes",
-            joinColumns = @JoinColumn(name = "id_participacao_expedicao")
+        name = "tb_participacao_expedicao_observacoes",
+        joinColumns = @JoinColumn(name = "id_participacao_expedicao")
     )
     @Column(name = "observacao")
     private List<String> observacoes = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(
+        fetch = FetchType.LAZY, 
+        optional = false
+    )
     @JoinColumn(name = "id_pessoa", nullable = false)
     private Pessoa pessoa;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(
+        fetch = FetchType.LAZY, 
+        optional = false
+    )
     @JoinColumn(name = "id_expedicao", nullable = false)
     private Expedicao expedicao;
 

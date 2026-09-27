@@ -66,7 +66,10 @@ public abstract class Pessoa {
     )
     private Set<ParticipacaoExpedicao> participacoesExpedicoes = new HashSet<>();
 
-    @OneToMany(mappedBy = "pessoaRetirada", fetch = FetchType.LAZY)
+    @OneToMany(
+        mappedBy = "pessoaRetirada", 
+        fetch = FetchType.LAZY
+    )
     private Set<UtilizacaoEquipamento> utilizacoesEquipamentos = new HashSet<>();
 
 }
