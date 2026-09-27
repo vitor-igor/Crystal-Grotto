@@ -28,6 +28,7 @@ public class SetorPesquisa {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_setor_pesquisa")
     private Long id;
 
     @Column(name = "denominacao", nullable = false, length = 100)

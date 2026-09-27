@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +28,7 @@ public class Caverna {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_caverna")
     private Long id;
 
     @Column(name = "nome_oficial", nullable = false, length = 150)
@@ -56,6 +58,12 @@ public class Caverna {
     @Column(name = "acesso_permitido", nullable = false)
     private Boolean acessoPermitido;
 
+    @OneToMany(
+        mappedBy = "caverna",
+        fetch = FetchType.LAZY
+    )
+    private List<SetorPesquisa> setoresPesquisa;
+    
     @OneToMany(mappedBy = "caverna")
-    private List<SetorPesquisa> setoresPesquisa; 
+    private List<Expedicao> expedicoes;
 }

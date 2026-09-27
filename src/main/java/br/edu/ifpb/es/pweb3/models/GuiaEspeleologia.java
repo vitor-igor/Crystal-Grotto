@@ -31,6 +31,6 @@ public class GuiaEspeleologia extends Pessoa {
     @Column(name = "data_validade_certificacao")
     private LocalDate dataValidadeCertificacao;
 
-    @Column(name = "qtd_espedicoes_concluidas")
-    private Integer qtdEspedicoesConcluidas;
+    @Column(name = "qtd_expedicoes_concluidas")
+    private Integer qtdExpedicoesConcluidas;
 }

@@ -30,6 +30,7 @@ public abstract class Pessoa {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_pessoa")
     private Long id;
 
     @Column(name = "nome", nullable = false, length = 150)
