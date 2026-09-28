@@ -23,8 +23,10 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 @Entity 
 @Table(name = "tb_coleta")
@@ -64,7 +66,7 @@ public class Coleta {
         joinColumns = @JoinColumn(name = "id_coleta")
     )
     @Column(name = "observacao")
-    private Set<String> observacoes = new HashSet<>();
+    private List<String> observacoes = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "situacao_coleta", nullable = false)

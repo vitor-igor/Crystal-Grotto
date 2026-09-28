@@ -25,8 +25,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity 
 @Table(name = "tb_amostra")
@@ -80,7 +80,7 @@ public class Amostra {
         joinColumns = @JoinColumn(name = "id_amostra")
     )
     @Column(name = "observacao")
-    private Set<String> observacoes = new HashSet<>();
+    private List<String> observacoes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_coleta", nullable = false)

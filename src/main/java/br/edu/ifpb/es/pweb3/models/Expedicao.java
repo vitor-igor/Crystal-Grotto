@@ -89,7 +89,8 @@ public class Expedicao {
 
     @OneToMany(
         mappedBy = "expedicao",
-        fetch = FetchType.LAZY
+        fetch = FetchType.LAZY,
+        orphanRemoval = true
     )
     private Set<AutorizacaoAmbiental> autorizacoesAmbientais = new HashSet<>();
 
