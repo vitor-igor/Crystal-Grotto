@@ -1,17 +1,21 @@
 package br.edu.ifpb.es.pweb3.models;
 
-import java.math.BigDecimal;
-
 import br.edu.ifpb.es.pweb3.models.enums.Titulacao;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity 
 @Table(name = "tb_pesquisador")
@@ -33,5 +37,11 @@ public class Pesquisador extends Pessoa {
 
     @Column(name = "valor_diario_bolsa", precision = 10, scale = 2)
     private BigDecimal valorDiarioBolsa;
-    
+
+    @OneToMany(
+        mappedBy = "pesquisador",
+        fetch = FetchType.LAZY,
+        orphanRemoval = true
+    )
+    private Set<Coleta> coletas = new HashSet<>();
 }

@@ -1,0 +1,9 @@
+package br.edu.ifpb.es.pweb3.models.enums;
+
+public enum CategoriaAmostra {
+    ARQUEOLOGICA,
+    GEOLOGICA,
+    PALEONTOLOGICA,
+    BIOLOGICA,
+    ESPELEOLOGICA
+}

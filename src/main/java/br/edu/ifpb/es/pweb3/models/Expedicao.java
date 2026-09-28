@@ -116,4 +116,10 @@ public class Expedicao {
     )
     private Set<UtilizacaoEquipamento> utilizacoesEquipamentos = new HashSet<>();
     
+    @OneToOne(
+        mappedBy = "expedicao", 
+        fetch = FetchType.LAZY, 
+        orphanRemoval = true
+    )
+    private Relatorio relatorioFinal;
 }
