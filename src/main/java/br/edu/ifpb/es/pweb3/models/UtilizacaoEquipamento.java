@@ -33,18 +33,6 @@ public class UtilizacaoEquipamento {
     @Column(name = "id_utilizacao")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_expedicao", nullable = false)
-    private Expedicao expedicao;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_equipamento", nullable = false)
-    private Equipamento equipamento;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_pessoa_retirada", nullable = false)
-    private Pessoa pessoaRetirada;
-
     @Column(name = "data_hora_retirada", nullable = false)
     private LocalDateTime dataHoraRetirada;
 
@@ -65,4 +53,15 @@ public class UtilizacaoEquipamento {
     @Column(name = "custo_avaria", precision = 10, scale = 2)
     private BigDecimal custoAvaria;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_expedicao", nullable = false)
+    private Expedicao expedicao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_equipamento", nullable = false)
+    private Equipamento equipamento;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_pessoa_retirada", nullable = false)
+    private Pessoa pessoaRetirada;
 }
