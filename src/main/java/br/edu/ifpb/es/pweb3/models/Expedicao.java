@@ -75,7 +75,7 @@ public class Expedicao {
     @Column(name = "cancelamentoEmergencial", nullable = false)
     private Boolean cancelamentoEmergencial;
 
-    @ManyToOne 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "caverna_id", nullable = false)
     private Caverna caverna;
 

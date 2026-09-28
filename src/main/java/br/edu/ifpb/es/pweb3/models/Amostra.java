@@ -82,7 +82,7 @@ public class Amostra {
     @Column(name = "observacao")
     private List<String> observacoes = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_coleta", nullable = false)
     private Coleta coleta;
 }

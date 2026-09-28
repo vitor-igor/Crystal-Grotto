@@ -72,11 +72,11 @@ public class Coleta {
     @Column(name = "situacao_coleta", nullable = false)
     private SituacaoColeta situacaoColeta;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_setor_pesquisa", nullable = false)
     private SetorPesquisa setorPesquisa;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pesquisador", nullable = false)
     private Pesquisador pesquisador;
 
