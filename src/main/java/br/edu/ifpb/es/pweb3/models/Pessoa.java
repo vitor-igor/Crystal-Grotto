@@ -18,17 +18,17 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity 
 @Table(name = "tb_pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter 
 @Setter 
-@AllArgsConstructor 
+@SuperBuilder  
 @NoArgsConstructor 
 public abstract class Pessoa {
 

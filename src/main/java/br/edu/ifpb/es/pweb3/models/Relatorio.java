@@ -61,4 +61,5 @@ public class Relatorio {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_expedicao", unique = true, nullable = false)
     private Expedicao expedicao;
+    
 }

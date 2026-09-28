@@ -85,4 +85,5 @@ public class Amostra {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_coleta", nullable = false)
     private Coleta coleta;
+    
 }

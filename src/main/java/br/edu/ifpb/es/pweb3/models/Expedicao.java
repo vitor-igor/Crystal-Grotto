@@ -123,4 +123,5 @@ public class Expedicao {
         orphanRemoval = true
     )
     private Relatorio relatorioFinal;
+    
 }

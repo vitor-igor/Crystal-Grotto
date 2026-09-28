@@ -8,10 +8,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "tb_pesquisador")
 @Getter 
 @Setter 
-@AllArgsConstructor 
+@SuperBuilder  
 @NoArgsConstructor 
 public class Pesquisador extends Pessoa {
 
@@ -44,4 +44,5 @@ public class Pesquisador extends Pessoa {
         orphanRemoval = true
     )
     private Set<Coleta> coletas = new HashSet<>();
+    
 }

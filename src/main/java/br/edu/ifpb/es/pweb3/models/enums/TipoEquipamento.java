@@ -5,5 +5,8 @@ public enum TipoEquipamento {
     FONTE_DE_LUZ,
     CALCADO,
     ROUPA,
-    MOCHILA
+    MOCHILA,
+    CORDA,
+    ACESSORIO,
+    MONITORAMENTO
 }

@@ -4,5 +4,7 @@ public enum MetodoColeta {
     EXTRACAO,
     BUSCA,
     PLOTAGEM,
-    ARMADILHA
+    ARMADILHA,
+    MANUAL,
+    AMOSTRAGEM
 }

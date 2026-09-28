@@ -64,4 +64,5 @@ public class UtilizacaoEquipamento {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pessoa_retirada", nullable = false)
     private Pessoa pessoaRetirada;
+    
 }
