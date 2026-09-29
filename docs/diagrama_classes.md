@@ -189,6 +189,9 @@ classDiagram
         CALCADO
         ROUPA
         MOCHILA
+        CORDA
+        ACESSORIO
+        MONITORAMENTO
     }
 
     class SituacaoEquipamento {
@@ -235,6 +238,8 @@ classDiagram
         BUSCA
         PLOTAGEM
         ARMADILHA
+        MANUAL
+        AMOSTRAGEM
     }
 
     class SituacaoColeta {
@@ -244,6 +249,7 @@ classDiagram
         VALIDADA
         REJEITADA
         COMPLEMENTACAO_NECESSARIA
+        CONCLUIDA
     }
 
     class Amostra {
@@ -254,7 +260,7 @@ classDiagram
         - BigDecimal volume
         - UnidadeMedida unidadeMedida
         - LocalDateTime dataAcondicionamento
-        - CondicaoConservacao condicaoConservacao
+        - CondicaoPreservacao condicaoPreservacao
         - Boolean materialPerigoso
         - byte[] fotografia
         - List~String~ observacoes
@@ -279,7 +285,7 @@ classDiagram
         MILIGRAMA
     }
 
-    class CondicaoConservacao {
+    class CondicaoPreservacao {
         <<enumeration>>
         INTACTA
         FRAGMENTADA
@@ -312,7 +318,6 @@ classDiagram
     Pessoa <|-- GuiaEspeleologia
 
     Caverna "1" *-- "1" CoordenadaGeografica
-    Caverna "1" -- "1" Endereco
     Caverna "1" --> "0..*" SetorPesquisa
     Caverna "1" --> "0..*" Expedicao
 
@@ -329,10 +334,7 @@ classDiagram
     Expedicao "1" -- "1" PlanoSeguranca
     Expedicao "1" --> "0..*" ParticipacaoExpedicao
     Expedicao "1" --> "0..*" UtilizacaoEquipamento
-    Expedicao "1" -- "1" Relatorio
-
-    Equipamento "1"--> "0..*" UtilizacaoEquipamento
-    Equipamento "1" --> "0..*" UtilizacaoEquipamento
+    Expedicao "1" -- "0..1" Relatorio
 
     Coleta "1" --> "0..*" Amostra
 
