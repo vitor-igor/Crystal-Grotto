@@ -13,6 +13,7 @@ import br.edu.ifpb.es.pweb3.models.ParticipacaoExpedicao;
 import br.edu.ifpb.es.pweb3.models.ExpedicaoResumoDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 
 public class ExecutaConsultas {
 
@@ -84,15 +85,19 @@ public class ExecutaConsultas {
             WHERE e.id = :idExpedicao
         """;
 
-        Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
-        .setParameter("idExpedicao", idExpedicao)
-        .getSingleResult();
-
-        System.out.println("Detalhes de participação da Expedição: " + expedicao.getCodExpedicao() + " - " + expedicao.getTitulo() + " - " + expedicao.getObjetivo() + " - Início: " + expedicao.getDataPrevistaInicio() + "  - Término: " + expedicao.getDataPrevistaTermino() + " - " + expedicao.getOrcamentoAprovado());
-        System.out.println("--------------------PARTICIPANTES--------------------");
-
-        for (ParticipacaoExpedicao p : expedicao.getParticipacoes()) {
-            System.out.println(p.getPessoa().getNome() + " - " + p.getPapelDesempenhado());
+        try{
+            Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
+            .setParameter("idExpedicao", idExpedicao)
+            .getSingleResult();
+    
+            System.out.println("Detalhes de participação da Expedição: " + expedicao.getCodExpedicao() + " - " + expedicao.getTitulo() + " - " + expedicao.getObjetivo() + " - Início: " + expedicao.getDataPrevistaInicio() + "  - Término: " + expedicao.getDataPrevistaTermino() + " - " + expedicao.getOrcamentoAprovado());
+            System.out.println("--------------------PARTICIPANTES--------------------");
+    
+            for (ParticipacaoExpedicao p : expedicao.getParticipacoes()) {
+                System.out.println(p.getPessoa().getNome() + " - " + p.getPapelDesempenhado());
+            }
+        }catch (NoResultException e){
+            System.out.println("Nenhuma expedição encontrada para a expedição ID: " + idExpedicao);
         }
     }
 
@@ -106,15 +111,19 @@ public class ExecutaConsultas {
             WHERE e.id = :idExpedicao
         """;
 
-        Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
-        .setParameter("idExpedicao", idExpedicao)
-        .getSingleResult();
-
-        System.out.println("Detalhes de Coletas da Expedição " +  expedicao.getTitulo() + ':');
-        System.out.println("--------------------RESULTADOS--------------------");
-
-        for (Coleta c : expedicao.getColetas()) {
-            System.out.println(c.getDescricaoPonto() + " - " + c.getPesquisador().getNome() + " - " + c.getSetorPesquisa().getDenominacao());
+        try{
+            Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
+            .setParameter("idExpedicao", idExpedicao)
+            .getSingleResult();
+    
+            System.out.println("Detalhes de Coletas da Expedição " +  expedicao.getTitulo() + ':');
+            System.out.println("--------------------RESULTADOS--------------------");
+    
+            for (Coleta c : expedicao.getColetas()) {
+                System.out.println(c.getDescricaoPonto() + " - " + c.getPesquisador().getNome() + " - " + c.getSetorPesquisa().getDenominacao());
+            }
+        }catch (NoResultException e){
+            System.out.println("Nenhuma expedição encontrada para a expedição ID: " + idExpedicao);
         }
     }
 
@@ -126,16 +135,20 @@ public class ExecutaConsultas {
             WHERE c.id = :idColeta
         """;
 
-        Coleta coleta = em.createQuery(jpql, Coleta.class)
-        .setParameter("idColeta", idColeta)
-        .getSingleResult();
-
-        System.out.println("Amostras da coleta: " + coleta.getDescricaoPonto() + ':');
-        System.out.println("--------------------RESULTADOS--------------------");
-
-        for (Amostra a : coleta.getAmostras()) {
-            
-            System.out.println("Código: " + a.getCodAmostra() + " - " + a.getCategoriaAmostra() + " - " + a.getCondicaoPreservacao() + " - " + "Perigoso = " + a.getMaterialPerigoso());
+        try{
+            Coleta coleta = em.createQuery(jpql, Coleta.class)
+            .setParameter("idColeta", idColeta)
+            .getSingleResult();
+    
+            System.out.println("Amostras da coleta: " + coleta.getDescricaoPonto() + ':');
+            System.out.println("--------------------RESULTADOS--------------------");
+    
+            for (Amostra a : coleta.getAmostras()) {
+                
+                System.out.println("Código: " + a.getCodAmostra() + " - " + a.getCategoriaAmostra() + " - " + a.getCondicaoPreservacao() + " - " + "Perigoso = " + a.getMaterialPerigoso());
+            }
+        }catch (NoResultException e){
+            System.out.println("Nenhuma coleta encontrada para a coleta ID: " + idColeta);
         }
     }
 
@@ -146,11 +159,15 @@ public class ExecutaConsultas {
             WHERE p.expedicao.id = :idExpedicao
         """;
         
-        byte[] mapa = em.createQuery(jpql, byte[].class)
-                        .setParameter("idExpedicao", idExpedicao)
-                        .getSingleResult();
-        
-        System.out.println("Tamanho do mapa baixado: " + mapa.length + " bytes");
+        try{
+            byte[] mapa = em.createQuery(jpql, byte[].class)
+            .setParameter("idExpedicao", idExpedicao)
+            .getSingleResult();
+                            
+            System.out.println("Tamanho do mapa baixado: " + mapa.length + " bytes");
+        }catch (NoResultException e){
+            System.out.println("Nenhum mapa encontrado para a expedição ID: " + idExpedicao);
+        }
     }
 
     private static void baixarAutorizacaoAmbiental(EntityManager em, Long idAutorizacao) {
@@ -160,11 +177,15 @@ public class ExecutaConsultas {
             WHERE a.id = :idAutorizacao
         """;
         
-        byte[] arquivo = em.createQuery(jpql, byte[].class)
-                        .setParameter("idAutorizacao", idAutorizacao)
-                        .getSingleResult();
-        
-        System.out.println("Tamanho da autorização baixada: " + arquivo.length + " bytes");
+        try{
+            byte[] arquivo = em.createQuery(jpql, byte[].class)
+                            .setParameter("idAutorizacao", idAutorizacao)
+                            .getSingleResult();
+            
+            System.out.println("Tamanho da autorização baixada: " + arquivo.length + " bytes");
+        }catch (NoResultException e){
+            System.out.println("Nenhuma autorização ambiental encontrada para a autorização ID: " + idAutorizacao);
+        }
     }
 
     private static void baixarRelatorio(EntityManager em, Long idExpedicao) {
@@ -174,10 +195,14 @@ public class ExecutaConsultas {
             WHERE r.expedicao.id = :idExpedicao
         """;
         
-        byte[] arquivo = em.createQuery(jpql, byte[].class)
-                        .setParameter("idExpedicao", idExpedicao)
-                        .getSingleResult();
-        
-        System.out.println("Tamanho do relatório baixado: " + arquivo.length + " bytes");
+        try{
+            byte[] arquivo = em.createQuery(jpql, byte[].class)
+                            .setParameter("idExpedicao", idExpedicao)
+                            .getSingleResult();
+            
+            System.out.println("Tamanho do relatório baixado: " + arquivo.length + " bytes");
+        }catch (NoResultException e){
+            System.out.println("Nenhum relatório encontrado para o expedição ID: " + idExpedicao);
+        }
     }
 }
