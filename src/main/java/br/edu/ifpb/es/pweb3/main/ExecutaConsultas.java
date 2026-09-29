@@ -71,7 +71,7 @@ public class ExecutaConsultas {
         System.out.println("Expedições entre " + dataInicio + " e " + dataFim);
         System.out.println("--------------------RESULTADOS--------------------");
         resultado.forEach(dto -> {
-            System.out.println(dto.titulo() + " - " + dto.nomeCaverna());
+            System.out.println(dto.codExpedicao() + " - " + dto.titulo() + " - " + dto.nomeCaverna() + " - " + dto.dataPrevistaInicio() + " - " + dto.situacao());
         });
     }
 
@@ -88,8 +88,8 @@ public class ExecutaConsultas {
         .setParameter("idExpedicao", idExpedicao)
         .getSingleResult();
 
-        System.out.println("Detalhes de participação da Expedição " + expedicao.getTitulo());
-        System.out.println("--------------------RESULTADOS--------------------");
+        System.out.println("Detalhes de participação da Expedição: " + expedicao.getCodExpedicao() + " - " + expedicao.getTitulo() + " - " + expedicao.getObjetivo() + " - Início: " + expedicao.getDataPrevistaInicio() + "  - Término: " + expedicao.getDataPrevistaTermino() + " - " + expedicao.getOrcamentoAprovado());
+        System.out.println("--------------------PARTICIPANTES--------------------");
 
         for (ParticipacaoExpedicao p : expedicao.getParticipacoes()) {
             System.out.println(p.getPessoa().getNome() + " - " + p.getPapelDesempenhado());
@@ -110,7 +110,7 @@ public class ExecutaConsultas {
         .setParameter("idExpedicao", idExpedicao)
         .getSingleResult();
 
-        System.out.println("Detalhes de Coletas da Expedição " + expedicao.getTitulo() + ':');
+        System.out.println("Detalhes de Coletas da Expedição " +  expedicao.getTitulo() + ':');
         System.out.println("--------------------RESULTADOS--------------------");
 
         for (Coleta c : expedicao.getColetas()) {
