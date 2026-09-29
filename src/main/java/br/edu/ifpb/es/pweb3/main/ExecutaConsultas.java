@@ -32,6 +32,14 @@ public class ExecutaConsultas {
             // Obter as amostras de uma coleta apenas quando o usuário abrir os seus detalhes;
             listarAmostrasColeta(em, 1L);
 
+            // Consultar equipamentos disponíveis em determinada faixa de datas sem carregar todo o histórico de movimentações;
+
+            // Baixar separadamente o mapa de segurança, a autorização ambiental ou o relatório final.
+            baixarMapaSeguranca(em, 1L);
+            baixarAutorizacaoAmbiental(em, 1L);
+            baixarRelatorio(em, 1L);
+
+
         } finally {
             if (em.isOpen()) {
                 em.close();
@@ -129,5 +137,47 @@ public class ExecutaConsultas {
             
             System.out.println("Código: " + a.getCodAmostra() + " - " + a.getCategoriaAmostra() + " - " + a.getCondicaoPreservacao() + " - " + "Perigoso = " + a.getMaterialPerigoso());
         }
+    }
+
+    private static void baixarMapaSeguranca(EntityManager em, Long idExpedicao) {
+        String jpql = """
+            SELECT p.mapaRota
+            FROM PlanoSeguranca p
+            WHERE p.expedicao.id = :idExpedicao
+        """;
+        
+        byte[] mapa = em.createQuery(jpql, byte[].class)
+                        .setParameter("idExpedicao", idExpedicao)
+                        .getSingleResult();
+        
+        System.out.println("Tamanho do mapa baixado: " + mapa.length + " bytes");
+    }
+
+    private static void baixarAutorizacaoAmbiental(EntityManager em, Long idAutorizacao) {
+        String jpql = """
+            SELECT a.arqPDFAssinado
+            FROM AutorizacaoAmbiental a
+            WHERE a.id = :idAutorizacao
+        """;
+        
+        byte[] arquivo = em.createQuery(jpql, byte[].class)
+                        .setParameter("idAutorizacao", idAutorizacao)
+                        .getSingleResult();
+        
+        System.out.println("Tamanho da autorização baixada: " + arquivo.length + " bytes");
+    }
+
+    private static void baixarRelatorio(EntityManager em, Long idExpedicao) {
+        String jpql = """
+            SELECT r.arquivo
+            FROM Relatorio r
+            WHERE r.expedicao.id = :idExpedicao
+        """;
+        
+        byte[] arquivo = em.createQuery(jpql, byte[].class)
+                        .setParameter("idExpedicao", idExpedicao)
+                        .getSingleResult();
+        
+        System.out.println("Tamanho do relatório baixado: " + arquivo.length + " bytes");
     }
 }
