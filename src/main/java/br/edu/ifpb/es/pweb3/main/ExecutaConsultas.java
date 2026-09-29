@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoExpedicao;
+import br.edu.ifpb.es.pweb3.models.Coleta;
 import br.edu.ifpb.es.pweb3.models.Expedicao;
 import br.edu.ifpb.es.pweb3.models.ParticipacaoExpedicao;
 import br.edu.ifpb.es.pweb3.models.ExpedicaoResumoDTO;
@@ -24,7 +25,9 @@ public class ExecutaConsultas {
             // Carregar os detalhes de uma expedição selecionada, incluindo participantes e seus papéis, sem buscar arquivos binários;
             listarDetalhesExpedicoes(em, 1L);
 
-            
+            // Listar as coletas de uma expedição com o setor e o pesquisador responsável;
+            listarColetasExpedicao(em, 1L);
+
         } finally {
             if (em.isOpen()) {
                 em.close();
@@ -54,8 +57,9 @@ public class ExecutaConsultas {
         .getResultList();
 
         System.out.println("Expedições entre " + dataInicio + " e " + dataFim);
+        System.out.println("--------------------RESULTADOS--------------------");
         resultado.forEach(dto -> {
-            System.out.println("Expedição: " + dto.titulo() + " | Caverna: " + dto.nomeCaverna());
+            System.out.println(dto.titulo() + " - " + dto.nomeCaverna());
         });
     }
 
@@ -64,7 +68,7 @@ public class ExecutaConsultas {
             SELECT e
             FROM Expedicao e
             LEFT JOIN FETCH e.participacoes p
-            LEFT JOIN FETCH e.participacoes.pessoa pe
+            LEFT JOIN FETCH p.pessoa pe
             WHERE e.id = :idExpedicao
         """;
 
@@ -73,9 +77,32 @@ public class ExecutaConsultas {
         .getSingleResult();
 
         System.out.println("Detalhes de participação da Expedição " + expedicao.getTitulo());
+        System.out.println("--------------------RESULTADOS--------------------");
 
         for (ParticipacaoExpedicao p : expedicao.getParticipacoes()) {
             System.out.println(p.getPessoa().getNome() + " - " + p.getPapelDesempenhado());
+        }
+    }
+
+    private static void listarColetasExpedicao(EntityManager em, Long idExpedicao) {
+        String jpql = """
+            SELECT e
+            FROM Expedicao e
+            LEFT JOIN FETCH e.coletas c
+            LEFT JOIN FETCH c.pesquisador
+            LEFT JOIN FETCH c.setorPesquisa
+            WHERE e.id = :idExpedicao
+        """;
+
+        Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
+        .setParameter("idExpedicao", idExpedicao)
+        .getSingleResult();
+
+        System.out.println("Detalhes de Coletas da Expedição " + expedicao.getTitulo() + ':');
+        System.out.println("--------------------RESULTADOS--------------------");
+
+        for (Coleta c : expedicao.getColetas()) {
+            System.out.println(c.getDescricaoPonto() + " - " + c.getPesquisador().getNome() + " - " + c.getSetorPesquisa().getDenominacao());
         }
     }
 }
