@@ -5,9 +5,11 @@ import jakarta.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.edu.ifpb.es.pweb3.models.enums.SituacaoEquipamento;
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoExpedicao;
 import br.edu.ifpb.es.pweb3.models.Amostra;
 import br.edu.ifpb.es.pweb3.models.Coleta;
+import br.edu.ifpb.es.pweb3.models.Equipamento;
 import br.edu.ifpb.es.pweb3.models.Expedicao;
 import br.edu.ifpb.es.pweb3.models.ParticipacaoExpedicao;
 import br.edu.ifpb.es.pweb3.models.ExpedicaoResumoDTO;
@@ -34,6 +36,7 @@ public class ExecutaConsultas {
             listarAmostrasColeta(em, 1L);
 
             // Consultar equipamentos disponíveis em determinada faixa de datas sem carregar todo o histórico de movimentações;
+            listarEquipamentosDisponiveis( em, LocalDateTime.of(2026, 6, 1, 0, 0), LocalDateTime.of(2026, 6, 10, 23, 59));
 
             // Baixar separadamente o mapa de segurança, a autorização ambiental ou o relatório final.
             baixarMapaSeguranca(em, 1L);
@@ -64,10 +67,10 @@ public class ExecutaConsultas {
         """;
         
         List<ExpedicaoResumoDTO> resultado = em.createQuery(jpql, ExpedicaoResumoDTO.class)
-        .setParameter("inicio", dataInicio)
-        .setParameter("fim", dataFim)
-        .setParameter("sit", situacao)
-        .getResultList();
+            .setParameter("inicio", dataInicio)
+            .setParameter("fim", dataFim)
+            .setParameter("sit", situacao)
+            .getResultList();
 
         System.out.println("Expedições entre " + dataInicio + " e " + dataFim);
         System.out.println("--------------------RESULTADOS--------------------");
@@ -87,8 +90,8 @@ public class ExecutaConsultas {
 
         try{
             Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
-            .setParameter("idExpedicao", idExpedicao)
-            .getSingleResult();
+                .setParameter("idExpedicao", idExpedicao)
+                .getSingleResult();
     
             System.out.println("Detalhes de participação da Expedição: " + expedicao.getCodExpedicao() + " - " + expedicao.getTitulo() + " - " + expedicao.getObjetivo() + " - Início: " + expedicao.getDataPrevistaInicio() + "  - Término: " + expedicao.getDataPrevistaTermino() + " - " + expedicao.getOrcamentoAprovado());
             System.out.println("--------------------PARTICIPANTES--------------------");
@@ -97,7 +100,7 @@ public class ExecutaConsultas {
                 System.out.println(p.getPessoa().getNome() + " - " + p.getPapelDesempenhado());
             }
         }catch (NoResultException e){
-            System.out.println("Nenhuma expedição encontrada para a expedição ID: " + idExpedicao);
+            System.out.println("Nenhuma expedição encontrada para o ID: " + idExpedicao);
         }
     }
 
@@ -113,8 +116,8 @@ public class ExecutaConsultas {
 
         try{
             Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
-            .setParameter("idExpedicao", idExpedicao)
-            .getSingleResult();
+                .setParameter("idExpedicao", idExpedicao)
+                .getSingleResult();
     
             System.out.println("Detalhes de Coletas da Expedição " +  expedicao.getTitulo() + ':');
             System.out.println("--------------------RESULTADOS--------------------");
@@ -137,18 +140,86 @@ public class ExecutaConsultas {
 
         try{
             Coleta coleta = em.createQuery(jpql, Coleta.class)
-            .setParameter("idColeta", idColeta)
-            .getSingleResult();
+                .setParameter("idColeta", idColeta)
+                .getSingleResult();
     
             System.out.println("Amostras da coleta: " + coleta.getDescricaoPonto() + ':');
             System.out.println("--------------------RESULTADOS--------------------");
     
             for (Amostra a : coleta.getAmostras()) {
-                
                 System.out.println("Código: " + a.getCodAmostra() + " - " + a.getCategoriaAmostra() + " - " + a.getCondicaoPreservacao() + " - " + "Perigoso = " + a.getMaterialPerigoso());
             }
         }catch (NoResultException e){
             System.out.println("Nenhuma coleta encontrada para a coleta ID: " + idColeta);
+        }
+    }
+
+    private static void listarEquipamentosDisponiveis(EntityManager em, LocalDateTime dataInicio, LocalDateTime dataFim) {
+        if (dataInicio == null || dataFim == null) {
+            System.out.println("As datas de início e fim devem ser informadas.");
+            return;
+        }
+
+        if (dataInicio.isAfter(dataFim)) {
+            System.out.println("A data de início não pode ser posterior à data de fim.");
+            return;
+        }
+
+        String jpql = """
+            SELECT e
+            FROM Equipamento e
+            WHERE e.situacaoOperacional = :situacao
+                AND NOT EXISTS (
+                    SELECT u.id
+                    FROM UtilizacaoEquipamento u
+                    WHERE u.equipamento = e
+                        AND u.dataHoraRetirada <= :fim
+                        AND (
+                            u.dataHoraEfetivaDevolucao IS NULL
+                            OR u.dataHoraEfetivaDevolucao >= :inicio
+                        )
+              )
+            ORDER BY e.codPatrimonial
+        """;
+
+        try {
+            List<Equipamento> equipamentos = em.createQuery(jpql, Equipamento.class)
+                .setParameter("situacao", SituacaoEquipamento.DISPONIVEL)
+                .setParameter("inicio", dataInicio)
+                .setParameter("fim", dataFim)
+                .getResultList();
+
+            System.out.println(
+                "Equipamentos disponíveis entre "
+                + dataInicio
+                + " e "
+                + dataFim
+            );
+
+            System.out.println("--------------------RESULTADOS--------------------");
+
+            if (equipamentos.isEmpty()) {
+                System.out.println("Nenhum equipamento disponível nesse período.");
+                return;
+            }
+
+            equipamentos.forEach(e ->
+                System.out.println(
+                    e.getCodPatrimonial()
+                    + " - "
+                    + e.getNome()
+                    + " - "
+                    + e.getTipo()
+                    + " - "
+                    + e.getSituacaoOperacional()
+                )
+            );
+
+        } catch (Exception e) {
+            System.out.println(
+                "Erro ao consultar equipamentos disponíveis: "
+                + e.getMessage()
+            );
         }
     }
 
@@ -179,8 +250,8 @@ public class ExecutaConsultas {
         
         try{
             byte[] arquivo = em.createQuery(jpql, byte[].class)
-                            .setParameter("idAutorizacao", idAutorizacao)
-                            .getSingleResult();
+                .setParameter("idAutorizacao", idAutorizacao)
+                .getSingleResult();
             
             System.out.println("Tamanho da autorização baixada: " + arquivo.length + " bytes");
         }catch (NoResultException e){
@@ -197,8 +268,8 @@ public class ExecutaConsultas {
         
         try{
             byte[] arquivo = em.createQuery(jpql, byte[].class)
-                            .setParameter("idExpedicao", idExpedicao)
-                            .getSingleResult();
+                .setParameter("idExpedicao", idExpedicao)
+                .getSingleResult();
             
             System.out.println("Tamanho do relatório baixado: " + arquivo.length + " bytes");
         }catch (NoResultException e){
