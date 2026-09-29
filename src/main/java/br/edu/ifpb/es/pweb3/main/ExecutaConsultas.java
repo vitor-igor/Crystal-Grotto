@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoExpedicao;
+import br.edu.ifpb.es.pweb3.models.Expedicao;
+import br.edu.ifpb.es.pweb3.models.ParticipacaoExpedicao;
 import br.edu.ifpb.es.pweb3.models.ExpedicaoResumoDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -20,7 +22,9 @@ public class ExecutaConsultas {
             listarExpedicoesPorPeriodo(em, LocalDateTime.of(2025, 1, 1, 0, 0), LocalDateTime.of(2027, 12, 31, 23, 59), SituacaoExpedicao.PLANEJADA);
 
             // Carregar os detalhes de uma expedição selecionada, incluindo participantes e seus papéis, sem buscar arquivos binários;
+            listarDetalhesExpedicoes(em, 1L);
 
+            
         } finally {
             if (em.isOpen()) {
                 em.close();
@@ -53,5 +57,25 @@ public class ExecutaConsultas {
         resultado.forEach(dto -> {
             System.out.println("Expedição: " + dto.titulo() + " | Caverna: " + dto.nomeCaverna());
         });
+    }
+
+     private static void listarDetalhesExpedicoes(EntityManager em, Long idExpedicao) {
+        String jpql = """
+            SELECT e
+            FROM Expedicao e
+            LEFT JOIN FETCH e.participacoes p
+            LEFT JOIN FETCH e.participacoes.pessoa pe
+            WHERE e.id = :idExpedicao
+        """;
+
+        Expedicao expedicao = em.createQuery(jpql, Expedicao.class)
+        .setParameter("idExpedicao", idExpedicao)
+        .getSingleResult();
+
+        System.out.println("Detalhes de participação da Expedição " + expedicao.getTitulo());
+
+        for (ParticipacaoExpedicao p : expedicao.getParticipacoes()) {
+            System.out.println(p.getPessoa().getNome() + " - " + p.getPapelDesempenhado());
+        }
     }
 }
