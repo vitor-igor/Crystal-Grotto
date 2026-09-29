@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import br.edu.ifpb.es.pweb3.models.enums.SituacaoExpedicao;
+import br.edu.ifpb.es.pweb3.models.Amostra;
 import br.edu.ifpb.es.pweb3.models.Coleta;
 import br.edu.ifpb.es.pweb3.models.Expedicao;
 import br.edu.ifpb.es.pweb3.models.ParticipacaoExpedicao;
@@ -27,6 +28,9 @@ public class ExecutaConsultas {
 
             // Listar as coletas de uma expedição com o setor e o pesquisador responsável;
             listarColetasExpedicao(em, 1L);
+
+            // Obter as amostras de uma coleta apenas quando o usuário abrir os seus detalhes;
+            listarAmostrasColeta(em, 1L);
 
         } finally {
             if (em.isOpen()) {
@@ -103,6 +107,27 @@ public class ExecutaConsultas {
 
         for (Coleta c : expedicao.getColetas()) {
             System.out.println(c.getDescricaoPonto() + " - " + c.getPesquisador().getNome() + " - " + c.getSetorPesquisa().getDenominacao());
+        }
+    }
+
+    private static void listarAmostrasColeta(EntityManager em, Long idColeta) {
+        String jpql = """
+            SELECT c
+            FROM Coleta c
+            LEFT JOIN FETCH c.amostras a
+            WHERE c.id = :idColeta
+        """;
+
+        Coleta coleta = em.createQuery(jpql, Coleta.class)
+        .setParameter("idColeta", idColeta)
+        .getSingleResult();
+
+        System.out.println("Amostras da coleta: " + coleta.getDescricaoPonto() + ':');
+        System.out.println("--------------------RESULTADOS--------------------");
+
+        for (Amostra a : coleta.getAmostras()) {
+            
+            System.out.println("Código: " + a.getCodAmostra() + " - " + a.getCategoriaAmostra() + " - " + a.getCondicaoPreservacao() + " - " + "Perigoso = " + a.getMaterialPerigoso());
         }
     }
 }
