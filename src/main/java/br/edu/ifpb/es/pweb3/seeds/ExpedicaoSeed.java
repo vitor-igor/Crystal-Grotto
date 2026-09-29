@@ -48,7 +48,8 @@ public final class ExpedicaoSeed {
                 null,
                 new HashSet<>(),
                 new HashSet<>(),
-                null
+                null,
+                new HashSet<>()
         );
 
         expedicao1.getSetoresPesquisa().add(setores.get(0));
@@ -71,7 +72,8 @@ public final class ExpedicaoSeed {
                 null,
                 new HashSet<>(),
                 new HashSet<>(),
-                null
+                null,
+                new HashSet<>()
         );
 
         expedicao2.getSetoresPesquisa().add(setores.get(1));
@@ -94,7 +96,8 @@ public final class ExpedicaoSeed {
                 null,
                 new HashSet<>(),
                 new HashSet<>(),
-                null
+                null,
+                new HashSet<>()
         );
 
         expedicao3.getSetoresPesquisa().add(setores.get(2));
@@ -117,7 +120,8 @@ public final class ExpedicaoSeed {
                 null,
                 new HashSet<>(),
                 new HashSet<>(),
-                null
+                null,
+                new HashSet<>()
         );
 
         expedicao4.getSetoresPesquisa().add(setores.get(3));
@@ -140,7 +144,8 @@ public final class ExpedicaoSeed {
                 null,
                 new HashSet<>(),
                 new HashSet<>(),
-                null
+                null,
+                new HashSet<>()
         );
 
         expedicao5.getSetoresPesquisa().add(setores.get(4));

@@ -123,5 +123,11 @@ public class Expedicao {
         orphanRemoval = true
     )
     private Relatorio relatorioFinal;
+
+    @OneToMany(
+        mappedBy = "expedicao", 
+        fetch = FetchType.LAZY
+    )
+    private Set<Coleta> coletas = new HashSet<>();
     
 }

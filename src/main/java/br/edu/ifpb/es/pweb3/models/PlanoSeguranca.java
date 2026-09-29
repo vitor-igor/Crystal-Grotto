@@ -59,10 +59,13 @@ public class PlanoSeguranca {
     @Column(name = "mapa_rota", nullable = false)
     private byte[] mapaRota;
 
-    @OneToOne
+    @OneToOne(
+        fetch = FetchType.LAZY, 
+        optional = false
+    )
     @JoinColumn(
-        name = "expedicao_id",
-        nullable = false,
+        name = "expedicao_id", 
+        nullable = false, 
         unique = true
     )
     private Expedicao expedicao;

@@ -72,11 +72,17 @@ public class Coleta {
     @Column(name = "situacao_coleta", nullable = false)
     private SituacaoColeta situacaoColeta;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(
+        fetch = FetchType.LAZY, 
+        optional = false
+    )
     @JoinColumn(name = "id_setor_pesquisa", nullable = false)
     private SetorPesquisa setorPesquisa;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(
+        fetch = FetchType.LAZY, 
+        optional = false
+    )
     @JoinColumn(name = "id_pesquisador", nullable = false)
     private Pesquisador pesquisador;
 
@@ -85,5 +91,12 @@ public class Coleta {
         fetch = FetchType.LAZY
     )
     private Set<Amostra> amostras = new HashSet<>();
+
+    @ManyToOne(
+        fetch = FetchType.LAZY, 
+        optional = false
+    )
+    @JoinColumn(name = "id_expedicao", nullable = false)
+    private Expedicao expedicao;
 
 }

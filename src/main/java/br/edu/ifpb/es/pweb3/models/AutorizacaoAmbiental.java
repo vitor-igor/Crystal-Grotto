@@ -67,7 +67,10 @@ public class AutorizacaoAmbiental {
     @Column(name = "arq_pdf_assinado")
     private byte[] arqPDFAssinado;
 
-    @ManyToOne
+    @ManyToOne(
+        fetch = FetchType.LAZY, 
+        optional = false
+    )
     @JoinColumn(name = "id_expedicao", nullable = false)
     private Expedicao expedicao;
 

@@ -335,6 +335,7 @@ classDiagram
     Expedicao "1" --> "0..*" ParticipacaoExpedicao
     Expedicao "1" --> "0..*" UtilizacaoEquipamento
     Expedicao "1" -- "0..1" Relatorio
+    Expedicao "1" ───────── "0..*" Coleta
 
     Coleta "1" --> "0..*" Amostra
 
@@ -352,6 +353,6 @@ classDiagram
     Coleta ..> SituacaoColeta
     Amostra ..> CategoriaAmostra
     Amostra ..> UnidadeMedida
-    Amostra ..> CondicaoConservacao
+    Amostra ..> CondicaoPreservacao
 
 ```

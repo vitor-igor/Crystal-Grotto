@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifpb.es.pweb3.models.Coleta;
+import br.edu.ifpb.es.pweb3.models.Expedicao;
 import br.edu.ifpb.es.pweb3.models.Pesquisador;
 import br.edu.ifpb.es.pweb3.models.SetorPesquisa;
 import br.edu.ifpb.es.pweb3.models.enums.MetodoColeta;
@@ -28,6 +29,11 @@ public final class ColetaSeed {
                 Pesquisador.class
         ).getResultList();
 
+        List<Expedicao> expedicoes = em.createQuery(
+                "SELECT e FROM Expedicao e ORDER BY e.id",
+                Expedicao.class
+        ).getResultList();
+
         List<Coleta> coletas = new ArrayList<>();
 
         coletas.add(
@@ -46,7 +52,8 @@ public final class ColetaSeed {
                 SituacaoColeta.CONCLUIDA,
                 setores.get(0),
                 pesquisadores.get(0),
-                new java.util.HashSet<>()
+                new java.util.HashSet<>(),
+                expedicoes.get(0)
             )
         );
 
@@ -66,7 +73,8 @@ public final class ColetaSeed {
                 SituacaoColeta.CONCLUIDA,
                 setores.get(1),
                 pesquisadores.get(1),
-                new java.util.HashSet<>()
+                new java.util.HashSet<>(),
+                expedicoes.get(1)
             )
         );
 
@@ -86,7 +94,8 @@ public final class ColetaSeed {
                 SituacaoColeta.VALIDADA,
                 setores.get(2),
                 pesquisadores.get(2),
-                new java.util.HashSet<>()
+                new java.util.HashSet<>(),
+                expedicoes.get(2)
             )
         );
 
@@ -106,7 +115,8 @@ public final class ColetaSeed {
                 SituacaoColeta.VALIDADA,
                 setores.get(3),
                 pesquisadores.get(3),
-                new java.util.HashSet<>()
+                new java.util.HashSet<>(),
+                expedicoes.get(3)
             )
         );
 
@@ -126,7 +136,8 @@ public final class ColetaSeed {
                 SituacaoColeta.EM_ANALISE,
                 setores.get(4),
                 pesquisadores.get(4),
-                new java.util.HashSet<>()
+                new java.util.HashSet<>(),
+                expedicoes.get(4)
             )
         );
 

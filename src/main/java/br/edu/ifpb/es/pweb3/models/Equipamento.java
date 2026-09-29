@@ -66,8 +66,7 @@ public class Equipamento {
 
     @OneToMany(
         mappedBy = "equipamento", 
-        fetch = FetchType.LAZY,
-        orphanRemoval = true
+        fetch = FetchType.LAZY
     )
     private Set<UtilizacaoEquipamento> historicoUtilizacoes = new HashSet<>();
     
