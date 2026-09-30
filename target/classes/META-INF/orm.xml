@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+                      https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+                 version="3.1">
+
+    <named-query name="Expedicao.listarDetalhesExpedicao">
+        <query>
+            <![CDATA[
+                SELECT e
+                FROM Expedicao e
+                LEFT JOIN FETCH e.participacoes p
+                LEFT JOIN FETCH p.pessoa pe
+                WHERE e.id = :idExpedicao
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="Expedicao.listarColetasExpedicao">
+        <query>
+            <![CDATA[
+                SELECT e
+                FROM Expedicao e
+                LEFT JOIN FETCH e.coletas c
+                LEFT JOIN FETCH c.pesquisador
+                LEFT JOIN FETCH c.setorPesquisa
+                WHERE e.id = :idExpedicao
+            ]]>
+        </query>
+    </named-query>
+</entity-mappings>
